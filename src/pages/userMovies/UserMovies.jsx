@@ -18,7 +18,7 @@ const UserMovies = () => {
         }
 
         const userId = userData._id;
-        const response = await fetch(`http://localhost:4000/api/movies/${userId}/movies`, {
+        const response = await fetch(`https://deployment-mern-moviemania.vercel.app/api/movies/${userId}/movies`, {
           headers: {
             Authorization: authorizationToken,
           },
@@ -40,7 +40,7 @@ const UserMovies = () => {
 
   const handleDelete = async (movieId) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/movies/${movieId}`, {
+      const response = await fetch(`https://deployment-mern-moviemania.vercel.app/api/movies/${movieId}`, {
         method: 'DELETE',
         headers: {
           Authorization: authorizationToken,
@@ -70,7 +70,7 @@ const UserMovies = () => {
           userMovies.map(movie => (
             <div key={movie._id} className="user-movie-item">
               <h3>{movie.title}</h3>
-              <img src={`http://localhost:4000${movie.imagePath}`} alt={movie.title} />
+              <img src={`https://deployment-mern-moviemania.vercel.app${movie.imagePath}`} alt={movie.title} />
               <div className="movie-buttons">
                 <button onClick={() => handleUpdate(movie._id)}>Update</button>
                 <button onClick={() => handleDelete(movie._id)}>Delete</button>

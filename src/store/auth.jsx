@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
       };
       const userAuthentication = async (authorizationToken) => {
         try {
-          const response = await fetch('http://localhost:4000/api/auth/user', {
+          const response = await fetch('https://deployment-mern-moviemania.vercel.app/api/auth/user', {
             method: 'GET',
             headers: {
               Authorization: authorizationToken,

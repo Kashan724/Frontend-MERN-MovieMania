@@ -9,7 +9,7 @@ const MovieCard = () => {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/movies/${id}`, {
+        const response = await fetch(`https://deployment-mern-moviemania.vercel.app/api/movies/${id}`, {
           method: 'GET'
         });
 
@@ -32,7 +32,7 @@ const MovieCard = () => {
     return <div>Loading...</div>;
   }
 
-  const imageUrl = `http://localhost:4000${movie.imagePath}`;
+  const imageUrl = `https://deployment-mern-moviemania.vercel.app${movie.imagePath}`;
   const titleLetters = movie.title.split('');
 
   return (

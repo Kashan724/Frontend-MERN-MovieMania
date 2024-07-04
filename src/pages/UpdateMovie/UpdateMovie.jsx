@@ -20,7 +20,7 @@ const UpdateMoviePage = () => {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/movies/${id}`, {
+        const response = await fetch(`https://deployment-mern-moviemania.vercel.app/api/movies/${id}`, {
           headers: {
             Authorization: authorizationToken,
           },
@@ -52,7 +52,7 @@ const UpdateMoviePage = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:4000/api/movies/${id}`, {
+      const response = await fetch(`https://deployment-mern-moviemania.vercel.app/api/movies/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

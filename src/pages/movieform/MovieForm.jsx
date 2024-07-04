@@ -57,7 +57,7 @@ const MovieForm = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:4000/api/movies', {
+      const response = await fetch('https://deployment-mern-moviemania.vercel.app/api/movies', {
         method: 'POST',
         body: formData,
         headers: {

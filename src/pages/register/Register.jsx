@@ -16,7 +16,7 @@ const Register = () => {
   const navigate = useNavigate();
   const { storeTokenInLS } = useAuth();
 
-  const URL = 'http://localhost:4000/api/auth/register';
+  const URL = 'https://deployment-mern-moviemania.vercel.app/api/auth/register';
 
   // handling the input values
   const handleInput = (e) => {

@@ -14,7 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { storeTokenInLS } = useAuth();
 
-  const URL = 'http://localhost:4000/api/auth/login';
+  const URL = 'https://deployment-mern-moviemania.vercel.app/api/auth/login';
 
   const handleInput = (e) => {
     let name = e.target.name;
@@ -63,7 +63,7 @@ const Login = () => {
     if (!email) return;
 
     try {
-      const response = await fetch('http://localhost:4000/api/auth/forgot-password', {
+      const response = await fetch('https://deployment-mern-moviemania.vercel.app/api/auth/forgot-password', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

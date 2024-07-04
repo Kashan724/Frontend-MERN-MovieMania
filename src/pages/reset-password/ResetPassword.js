@@ -23,7 +23,7 @@ const ResetPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:4000/api/auth/reset-password', {
+      const response = await fetch('https://deployment-mern-moviemania.vercel.app/api/auth/reset-password', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -13,7 +13,7 @@ const Movies = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/movies', {
+        const response = await fetch('https://deployment-mern-moviemania.vercel.app/api/movies', {
           method: "GET"
         });
 
@@ -73,7 +73,7 @@ const Movies = () => {
       <div className="movie-gallery">
         {filteredMovies.map((movie) => (
           <div key={movie._id} className="movie-card" onClick={() => handleMovieClick(movie._id)}>
-            <img src={`http://localhost:4000${movie.imagePath}`} alt={movie.title} />
+            <img src={`https://deployment-mern-moviemania.vercel.app${movie.imagePath}`} alt={movie.title} />
             <div className="title">{movie.title}</div>
           </div>
         ))}
