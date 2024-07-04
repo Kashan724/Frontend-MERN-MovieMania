@@ -1,0 +1,154 @@
+/* Reset default margins and paddings */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Ensure html and body take full height */
+}
+
+/* General styles for the registration section */
+.section-registration {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: #2c2c54; /* Dark purple background */
+  height: 100vh; /* Make the section full viewport height */
+  margin: 0; /* Ensure no default margin */
+  box-sizing: border-box; /* Ensure padding and border are included in element's total width and height */
+}
+
+.register-form-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  background-color: #1e1e3f; /* Slightly lighter dark purple */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-width: 800px; /* Set a maximum width */
+  width: 100%; /* Make the container responsive */
+}
+
+.register-image img {
+  width: 100%;
+  height: 100%; /* Ensure the image covers its container */
+  object-fit: cover;
+}
+
+.register-form {
+  padding: 2rem;
+}
+
+.register-form .main-heading {
+  font-size: 2rem;
+  color: #f5f5f5; /* Light text color */
+  margin-bottom: 1rem;
+}
+
+.register-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-form label {
+  font-size: 1rem;
+  color: #f5f5f5; /* Light text color */
+  margin-bottom: 0.5rem; /* Space below label */
+  padding-bottom: 0.5rem; /* Additional padding for space */
+}
+
+.register-form input {
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px; /* Rounded input boxes */
+  font-size: 1rem;
+  width: 100%;
+}
+
+.register-form .btn-submit {
+  padding: 0.75rem;
+  background-color: #6a1b9a; /* Dark purple button */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-form .btn-submit:hover {
+  background-color: #4a148c; /* Slightly darker on hover */
+}
+
+/* Styles for the register link */
+.register-form p {
+  font-size: 0.9rem;
+  color: #f5f5f5; /* Light text color */
+  margin-top: 1rem;
+}
+
+.register-form a {
+  color: #6a1b9a; /* Same color as button */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.register-form a:hover {
+  color: #4a148c; /* Slightly darker on hover */
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .register-form-container {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .register-form {
+    padding: 1rem;
+  }
+
+  .main-heading {
+    font-size: 1.5rem;
+  }
+
+  .btn-submit {
+    font-size: 0.9rem;
+  }
+
+  .register-form input {
+    font-size: 0.9rem;
+  }
+
+  .register-form p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-registration {
+    padding: 1rem;
+  }
+
+  .register-form-container {
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .main-heading {
+    font-size: 1.25rem;
+  }
+
+  .btn-submit {
+    font-size: 0.8rem;
+  }
+
+  .register-form input {
+    font-size: 0.8rem;
+  }
+
+  .register-form p {
+    font-size: 0.7rem;
+  }
+}

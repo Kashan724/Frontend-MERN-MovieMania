@@ -1,0 +1,34 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Urbanist, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    color-scheme: light dark;
+  }
+  
+  :root {
+    --bg-color: #f4f3ff;
+    --btn-color: #646cff;
+    --dark-color: #f1e9e9;
+    --helper-color: #99b9ff;
+  }
+  
+  html {
+    font-size: 62.5%;
+  }
+  
+  /*? base style */
+  
+  body {
+    margin: 0;
+    /* display: flex;
+    place-items: center; */
+    /* min-width: 32rem; */
+    min-height: 100vh;
+  }
+  
+  h1 {
+    font-size: 5.4rem;
+    line-height: 1.1;
+    font-weight: bold;
+  }

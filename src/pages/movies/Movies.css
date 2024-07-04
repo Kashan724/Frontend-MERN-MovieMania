@@ -1,0 +1,134 @@
+body {
+  background-color: #f0f0f0; /* Light grey background color for the entire page */
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  background-color: #ffffff; /* White background color for the main container */
+  padding: 20px; /* Padding around the content */
+  margin: 20px auto; /* Center the container with margin */
+  max-width: 2000px; /* Max width for the container */
+  height: 800px;
+  border-radius: 10px; /* Rounded corners for the container */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.movie-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 30px; /* Increased grid gap to add more space between movie cards */
+  margin-top: 20px; /* Add margin to create space between search bar and movie cards */
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px; /* Increased margin to create more space between search bar and movies */
+}
+
+.search-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-right: 10px;
+  width: 300px; /* Adjust width as needed */
+}
+
+.search-button {
+  padding: 10px 20px;
+  background-color: #007bff; /* Blue color, adjust as needed */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #0056b3; /* Darker shade of blue on hover */
+}
+
+.movie-card {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  background-color: #fff; /* White background for each movie card */
+  border-radius: 8px; /* Rounded corners for movie cards */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  overflow: hidden; /* Ensure content doesn't overflow */
+}
+
+.movie-card:hover {
+  transform: scale(1.05);
+}
+
+.movie-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px 8px 0 0; /* Top corners rounded only */
+}
+
+.title {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 1rem;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  z-index: 1;
+  max-width: calc(100% - 20px);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Media Queries for Responsiveness */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (max-width: 576px) {
+  .search-input {
+    width: 100%; /* Full width on small devices */
+    margin-right: 0; /* No margin on small devices */
+    margin-bottom: 10px; /* Add bottom margin */
+  }
+  
+  .search-bar {
+    flex-direction: column; /* Stack input and button vertically */
+  }
+
+  .search-button {
+    width: 100%; /* Full width on small devices */
+  }
+
+  .movie-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Adjust card size on small devices */
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px; /* Reduce padding on tablets */
+    height: auto; /* Auto height on tablets */
+  }
+
+  .movie-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Adjust card size on tablets */
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (max-width: 992px) {
+  .container {
+    max-width: 95%; /* Slightly reduce max width on desktops */
+  }
+
+  .movie-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust card size on desktops */
+  }
+}
