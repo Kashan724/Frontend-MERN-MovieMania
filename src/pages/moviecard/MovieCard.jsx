@@ -32,7 +32,7 @@ const MovieCard = () => {
     return <div>Loading...</div>;
   }
 
-  const imageUrl = `https://deployment-mern-moviemania.vercel.app${movie.imagePath}`;
+  const imageUrl = `https://deployment-mern-moviemania.vercel.app/upload/${movie.imagePath}`;
   const titleLetters = movie.title.split('');
 
   return (
