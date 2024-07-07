@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../store/auth';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'; // Import Firebase storage methods
 import './UpdateMovie.css'; // Import the CSS file
 
 const UpdateMoviePage = () => {
   const { id } = useParams();
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const { authorizationToken } = useAuth();
   const [movieData, setMovieData] = useState(null);
   const [title, setTitle] = useState('');
@@ -16,6 +17,7 @@ const UpdateMoviePage = () => {
   const [duration, setDuration] = useState('');
   const [language, setLanguage] = useState('');
   const [country, setCountry] = useState('');
+  const [imagePath, setImagePath] = useState(null); // State to hold the new image file
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -37,6 +39,7 @@ const UpdateMoviePage = () => {
           setDuration(data.duration);
           setLanguage(data.language);
           setCountry(data.country);
+          setImagePath(data.imagePath); // Set the current image URL
         } else {
           console.error('Error fetching movie details:', response.statusText);
         }
@@ -48,8 +51,22 @@ const UpdateMoviePage = () => {
     fetchMovie();
   }, [id, authorizationToken]);
 
+  const handleImageUpload = async (file) => {
+    const storage = getStorage();
+    const storageRef = ref(storage, `images/${file.name}`);
+    await uploadBytes(storageRef, file);
+    const downloadURL = await getDownloadURL(storageRef);
+    return downloadURL;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let imageUrl = imagePath;
+
+    // Upload new image if a new file is selected
+    if (imagePath instanceof File) {
+      imageUrl = await handleImageUpload(imagePath);
+    }
 
     try {
       const response = await fetch(`https://deployment-mern-moviemania.vercel.app/api/movies/${id}`, {
@@ -67,12 +84,13 @@ const UpdateMoviePage = () => {
           duration,
           language,
           country,
+          imagePath: imageUrl, // Update image path
         }),
       });
 
       if (response.ok) {
         console.log('Movie updated successfully.');
-        Navigate(`/movies/${id}`);
+        navigate(`/movies/${id}`);
       } else {
         console.error('Error updating movie:', response.statusText);
       }
@@ -121,6 +139,13 @@ const UpdateMoviePage = () => {
               <div className="form-group">
                 <label>Country:</label>
                 <input type="text" value={country} onChange={(e) => setCountry(e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label>Poster/Banner:</label>
+                <input type="file" onChange={(e) => setImagePath(e.target.files[0])} />
+                {typeof imagePath === 'string' && (
+                  <img src={imagePath} alt="Current movie poster" style={{ marginTop: '10px', width: '200px' }} />
+                )}
               </div>
             </div>
           </div>

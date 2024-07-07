@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth} from '../../store/auth';
+import { useAuth } from '../../store/auth';
 import './MovieForm.css';
 
 const MovieForm = () => {
@@ -14,7 +14,7 @@ const MovieForm = () => {
   const [imagePath, setImagePath] = useState(null);
   const [userId, setUserId] = useState(null);
 
-  const { authorizationToken, userAuthentication  } = useAuth();
+  const { authorizationToken, userAuthentication } = useAuth();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -61,7 +61,7 @@ const MovieForm = () => {
         method: 'POST',
         body: formData,
         headers: {
-          Authorization: authorizationToken,
+          Authorization: `Bearer ${authorizationToken}`,
         },
       });
 
@@ -132,4 +132,3 @@ const MovieForm = () => {
 };
 
 export default MovieForm;
-

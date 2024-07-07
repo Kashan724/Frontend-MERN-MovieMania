@@ -70,7 +70,7 @@ const UserMovies = () => {
           userMovies.map(movie => (
             <div key={movie._id} className="user-movie-item">
               <h3>{movie.title}</h3>
-              <img src={`https://deployment-mern-moviemania.vercel.app${movie.imagePath}`} alt={movie.title} />
+              <img src={movie.imagePath} alt={movie.title} />
               <div className="movie-buttons">
                 <button onClick={() => handleUpdate(movie._id)}>Update</button>
                 <button onClick={() => handleDelete(movie._id)}>Delete</button>

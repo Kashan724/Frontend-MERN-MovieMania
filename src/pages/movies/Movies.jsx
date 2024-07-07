@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../store/auth';
-import './Movies.css'; // Uncomment this line to import the CSS file
+import './Movies.css';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -73,7 +73,7 @@ const Movies = () => {
       <div className="movie-gallery">
         {filteredMovies.map((movie) => (
           <div key={movie._id} className="movie-card" onClick={() => handleMovieClick(movie._id)}>
-            <img src={`https://deployment-mern-moviemania.vercel.app${movie.imagePath}`} alt={movie.title} />
+            <img src={movie.imagePath} alt={movie.title} />
             <div className="title">{movie.title}</div>
           </div>
         ))}
@@ -83,6 +83,7 @@ const Movies = () => {
 };
 
 export default Movies;
+
 
 
 
