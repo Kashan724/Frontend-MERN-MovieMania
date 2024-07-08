@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { getDownloadURL, ref } from 'firebase/storage';
+import { storage } from '../../config/firebase';
+ // Ensure you have configured Firebase in this file
 import './MovieCard.css';
 
 const MovieCard = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -17,6 +21,8 @@ const MovieCard = () => {
           const data = await response.json();
           console.log('Fetched movie:', data); // Debugging
           setMovie(data);
+          const url = await getDownloadURL(ref(storage, data.imagePath));
+          setImageUrl(url);
         } else {
           console.error('Failed to fetch movie');
         }
@@ -32,7 +38,6 @@ const MovieCard = () => {
     return <div>Loading...</div>;
   }
 
-  const imageUrl = movie.imagePath; // Directly use the image URL stored in the database
   const titleLetters = movie.title.split('');
 
   return (
@@ -53,7 +58,10 @@ const MovieCard = () => {
           </React.Fragment>
         ))}
       </h1>
-      <img src={imageUrl} alt={movie.title} />
+      <img src={imageUrl} alt={movie.title} onError={(e) => {
+        console.error('Error loading image:', e);
+        e.target.src = '/fallback-image.png';
+      }} />
       <p>{movie.description}</p>
       <p>Release Year: <span>{movie.releaseYear}</span></p>
       <p>Genre: <span>{movie.genre.join(', ')}</span></p>
@@ -66,4 +74,3 @@ const MovieCard = () => {
 };
 
 export default MovieCard;
-

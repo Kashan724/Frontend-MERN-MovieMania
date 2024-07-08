@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getDownloadURL, ref } from 'firebase/storage';
 import { useAuth } from '../../store/auth';
+import { storage } from '../../config/firebase';
+; // Ensure you have configured Firebase in this file
 import './Movies.css';
 
 const Movies = () => {
@@ -23,8 +26,15 @@ const Movies = () => {
         if (response.ok) {
           const data = await response.json();
           console.log('Fetched movies:', data);
-          setMovies(data);
-          setFilteredMovies(data);
+
+          // Fetch image URLs for each movie
+          const moviesWithImageUrls = await Promise.all(data.map(async (movie) => {
+            const imageUrl = await getDownloadURL(ref(storage, movie.imagePath));
+            return { ...movie, imageUrl };
+          }));
+
+          setMovies(moviesWithImageUrls);
+          setFilteredMovies(moviesWithImageUrls);
         } else {
           console.error('Failed to fetch movies');
         }
@@ -76,7 +86,7 @@ const Movies = () => {
         {filteredMovies.map((movie) => (
           <div key={movie._id} className="movie-card" onClick={() => handleMovieClick(movie._id)}>
             <img 
-              src={movie.imagePath} 
+              src={movie.imageUrl} 
               alt={movie.title} 
               onError={(e) => {
                 console.error('Error loading image:', e);
@@ -92,6 +102,7 @@ const Movies = () => {
 };
 
 export default Movies;
+
 
 
 

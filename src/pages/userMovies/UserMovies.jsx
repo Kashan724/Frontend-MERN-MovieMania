@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './UserMovies.css';
 import { useAuth } from '../../store/auth'; // Assuming you have access to useAuth for getting the authorization token
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { getDownloadURL, ref } from 'firebase/storage';
+import { storage } from '../../config/firebase';
+; // Ensure you have configured Firebase in this file
 
 const UserMovies = () => {
   const { authorizationToken, userAuthentication } = useAuth();
@@ -26,7 +29,15 @@ const UserMovies = () => {
 
         if (response.ok) {
           const data = await response.json();
-          setUserMovies(data);
+          
+          const moviesWithUrls = await Promise.all(
+            data.map(async (movie) => {
+              const url = await getDownloadURL(ref(storage, movie.imagePath));
+              return { ...movie, imageUrl: url };
+            })
+          );
+          
+          setUserMovies(moviesWithUrls);
         } else {
           console.error('Error fetching user movies:', response.statusText);
         }
@@ -70,7 +81,14 @@ const UserMovies = () => {
           userMovies.map(movie => (
             <div key={movie._id} className="user-movie-item">
               <h3>{movie.title}</h3>
-              <img src={movie.imagePath} alt={movie.title} />
+              <img 
+                src={movie.imageUrl} 
+                alt={movie.title} 
+                onError={(e) => {
+                  console.error('Error loading image:', e);
+                  e.target.src = '/fallback-image.png';
+                }} 
+              />
               <div className="movie-buttons">
                 <button onClick={() => handleUpdate(movie._id)}>Update</button>
                 <button onClick={() => handleDelete(movie._id)}>Delete</button>
