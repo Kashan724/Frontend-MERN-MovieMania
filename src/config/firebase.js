@@ -1,21 +1,23 @@
 // src/config/firebaseConfig.js
 
-import firebase from 'firebase/app';
-import 'firebase/storage'; // Import only the necessary Firebase services
+// Import the necessary Firebase modules
+import { initializeApp } from 'firebase/app';
+import { getStorage } from 'firebase/storage';
 
+// Firebase configuration
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
+  apiKey: "55d00ccc5078575279a1884c5ef5d7865e462662", // Use your actual API key here
+  authDomain: "mern-stack-7d963.firebaseapp.com", // Constructed from project ID
   projectId: "mern-stack-7d963",
   storageBucket: "mern-stack-7d963.appspot.com",
   messagingSenderId: "105862456370708056956",
-  appId: "1:105862456370708056956:web:e118e2526a0f439de7be9d"
+  appId: "1:105862456370708056956:web:e118e2526a0f439de7be9b", // Ensure to use your specific Firebase app ID
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-const storage = firebase.storage();
+// Initialize Firebase Storage
+const storage = getStorage(app);
 
 export { storage };
-
