@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { useAuth } from '../../store/auth';
 import { storage } from '../../config/firebase';
-; // Ensure you have configured Firebase in this file
 import './Movies.css';
 
 const Movies = () => {
@@ -102,7 +101,3 @@ const Movies = () => {
 };
 
 export default Movies;
-
-
-
-
