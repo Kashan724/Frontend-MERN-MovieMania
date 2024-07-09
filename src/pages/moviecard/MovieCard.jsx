@@ -1,49 +1,57 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { getDownloadURL, ref } from 'firebase/storage';
-import { auth, storage } from '../../config/firebase';
+import { storage } from '../../config/firebase';
 import './MovieCard.css';
 
-const MovieCard = ({ movie }) => {
-  const navigate = useNavigate();
+const MovieCard = () => {
+  const { id } = useParams();
+  const [movie, setMovie] = useState(null);
 
-  const handleMovieClick = (id) => {
-    navigate(`/movies/${id}`);
-  };
-
-  const [imageUrl, setImageUrl] = React.useState('');
-
-  React.useEffect(() => {
-    const fetchImageUrl = async () => {
+  useEffect(() => {
+    const fetchMovie = async () => {
       try {
-        const user = auth.currentUser;
-        if (user) {
-          const userId = user.uid;
-          const imageRef = ref(storage, `${userId}/${movie.imagePath}`);
-          const url = await getDownloadURL(imageRef);
-          setImageUrl(url);
+        const response = await fetch(`https://deployment-mern-moviemania.vercel.app/api/movies/${id}`, {
+          method: 'GET'
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Fetched movie:', data); // Debugging
+          
+          try {
+            const imageUrl = await getDownloadURL(ref(storage, data.imagePath));
+            setMovie({ ...data, imageUrl });
+          } catch (error) {
+            console.error(`Error fetching image for ${data.title}:`, error);
+            setMovie({ ...data, imageUrl: '/fallback-image.png' });
+          }
         } else {
-          console.error('User not authenticated');
+          console.error('Failed to fetch movie');
         }
       } catch (error) {
-        console.error('Error fetching image URL:', error);
-        setImageUrl('/fallback-image.png');
+        console.error('Error:', error);
       }
     };
 
-    fetchImageUrl();
-  }, [movie.imagePath]);
+    fetchMovie();
+  }, [id]);
+
+  if (!movie) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className="movie-card" onClick={() => handleMovieClick(movie._id)}>
-      <img
-        src={imageUrl}
-        alt={movie.title}
-        onError={(e) => {
-          e.target.src = '/fallback-image.png';
-        }}
-      />
-      <div className="title">{movie.title}</div>
+    <div className="movie-details">
+      <h1>{movie.title}</h1>
+      <img src={movie.imageUrl} alt={movie.title} />
+      <p>{movie.description}</p>
+      <p>Release Year: {movie.releaseYear}</p>
+      <p>Genre: {movie.genre.join(', ')}</p>
+      <p>Rating: {movie.rating}</p>
+      <p>Duration: {movie.duration}</p>
+      <p>Language: {movie.language}</p>
+      <p>Country: {movie.country}</p>
     </div>
   );
 };
