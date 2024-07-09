@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { useAuth } from '../../store/auth';
-import { storage } from '../../config/firebase';
+import { storage, auth } from '../../config/firebase';
 import './Movies.css';
 
 const Movies = () => {
@@ -24,18 +24,28 @@ const Movies = () => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log('Fetched movies:', data);
+          const user = auth.currentUser;
 
-          // Fetch image URLs for each movie
-          const moviesWithImageUrls = await Promise.all(data.map(async (movie) => {
-            const imageUrl = await getDownloadURL(ref(storage, movie.imagePath));
-            return { ...movie, imageUrl };
-          }));
+          if (user) {
+            const userId = user.uid;
+            const moviesWithImageUrls = await Promise.all(data.map(async (movie) => {
+              try {
+                const imageUrl = await getDownloadURL(ref(storage, `${userId}/${movie.imagePath}`));
+                return { ...movie, imageUrl };
+              } catch (error) {
+                console.error('Error fetching image URL:', error);
+                return { ...movie, imageUrl: '/fallback-image.png' };
+              }
+            }));
 
-          setMovies(moviesWithImageUrls);
-          setFilteredMovies(moviesWithImageUrls);
+            setMovies(moviesWithImageUrls);
+            setFilteredMovies(moviesWithImageUrls);
+          } else {
+            console.error('User not authenticated');
+          }
         } else {
-          console.error('Failed to fetch movies');
+          const errorText = await response.text();
+          console.error('Failed to fetch movies:', response.status, errorText);
         }
       } catch (error) {
         console.error('Error:', error);
@@ -50,19 +60,15 @@ const Movies = () => {
   };
 
   const handleSearchButtonClick = () => {
-    console.log('Search Query:', searchQuery);
     if (searchQuery.trim() !== '') {
       const searchGenres = searchQuery.split(',').map(genre => genre.trim().toLowerCase());
-      console.log('Search Genres:', searchGenres);
-      const filtered = movies.filter(movie => {
-        console.log('Movie Genres:', movie.genre);
-        return searchGenres.every(searchGenre =>
+      const filtered = movies.filter(movie => 
+        searchGenres.every(searchGenre =>
           movie.genre.some(movieGenre =>
             movieGenre.toLowerCase().includes(searchGenre)
           )
-        );
-      });
-      console.log('Filtered Movies:', filtered);
+        )
+      );
       setFilteredMovies(filtered);
     } else {
       setFilteredMovies(movies);
@@ -88,7 +94,6 @@ const Movies = () => {
               src={movie.imageUrl} 
               alt={movie.title} 
               onError={(e) => {
-                console.error('Error loading image:', e);
                 e.target.src = '/fallback-image.png';
               }} 
             />
