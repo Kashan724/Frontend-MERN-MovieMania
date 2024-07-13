@@ -54,7 +54,7 @@ const UserMovies = () => {
 
   const handleDelete = async (movieId) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/movies/${movieId}`, {
+      const response = await fetch(`https://deployment-mern-moviemania.vercel.app/api/movies/${movieId}`, {
         method: 'DELETE',
         headers: {
           Authorization: authorizationToken,
